@@ -1,0 +1,270 @@
+openapi: '3.0.0'
+info:
+  title: firecream
+  description: These APIs provide step configs for icecream
+  version: 0.2.2
+servers:
+  - url: /api
+paths:
+  /echo:
+    get:
+      summary: Health test
+      responses:
+        '200':
+          description: OK
+  /steps:
+    get:
+      summary: Get all steps
+      parameters:
+        - name: name
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: author
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Return all matched steps.
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:
+                  $ref: '#/components/schemas/StepRes' 
+        '500':
+          description: Internal error.   
+    post:
+      summary: Create a new step.
+      requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StepReq'
+      responses:
+        '201':
+          description: Step created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StepRes'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '409':
+          description: Step name already exists.
+        '500':
+          description: Internal error.  
+  /steps/{id}:
+    get:
+      summary: Return specific project detail infomation
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Return matched project information.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StepRes'
+        '404':
+          description: Step not found.
+        '500':
+          description: Internal error.  
+    put:
+      summary: Update properties for a selected step.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StepReq'
+      responses:
+        '200':
+          description: Updated project properties successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StepRes'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          description: Step not found.
+        '500':
+          description: Internal error.  
+    delete:
+      summary: Delete step by step_id
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Step is deleted successfully.
+        '404':
+          description: Step not found.
+        '500':
+          description: Internal error.  
+
+components:
+  responses:
+    BadRequest:
+      description: Bad request.
+      content:
+        text/plain:
+          schema:
+            type: string
+  schemas:
+    StepReq:
+      type: object
+      properties:
+        name:
+          type: string
+        author:
+          type: string
+        step_type:
+          type: string
+        config:
+          type: object    
+          anyOf:
+            - $ref: '#/components/schemas/Install_conda'
+            - $ref: '#/components/schemas/Conda_install'
+            - $ref: '#/components/schemas/Custom_command'
+            - $ref: '#/components/schemas/Git_clone'
+            - $ref: '#/components/schemas/Hdfs_download'
+            - $ref: '#/components/schemas/Install_python'
+            - $ref: '#/components/schemas/Install_git'
+            - $ref: '#/components/schemas/Pip_install'
+    StepRes:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        author:
+          type: string
+        step_type:
+          type: string
+        config:
+          type: object    
+          anyOf:
+            - $ref: '#/components/schemas/Install_conda'
+            - $ref: '#/components/schemas/Conda_install'
+            - $ref: '#/components/schemas/Custom_command'
+            - $ref: '#/components/schemas/Git_clone'
+            - $ref: '#/components/schemas/Hdfs_download'
+            - $ref: '#/components/schemas/Install_python'
+            - $ref: '#/components/schemas/Install_git'
+            - $ref: '#/components/schemas/Pip_install'
+        createAt:
+          type: string
+          format: datetime
+        updateAt:
+          type: string
+          format: datetime
+    Install_conda:
+      type: object
+      properties:
+        python_version:
+          type: string
+          default: '3.6'
+        conda_version:
+          type: string
+          default: latest
+        env_name:
+          type: string
+        bit:
+          type: string
+          enum:
+            - '32'
+            - '64'
+    Conda_install:
+      type: object
+      properties:
+        packages:
+          type: array
+          items:
+            type: string
+            description: the package follows conda package match specifications.
+    Custom_command:
+      type: object
+      properties:
+        command:
+          type: string
+    Git_clone:
+      type: object
+      properties:
+        url:
+          type: string
+        branch:
+          type: string
+        tag:
+          type: string
+    Hdfs_download:
+      type: object
+      oneOf:
+        - description: token client
+          properties:
+            url:
+              type: string
+              description: the web hdfs url
+            client_type:
+              type: string
+              enum:
+                - TokenClient
+            source_path:
+              type: string
+            destination_path:
+              type: string
+            token:
+              type: string
+        - description: insecure client
+          properties:
+            url:
+              type: string
+              description: the web hdfs url
+            client_type:
+              type: string
+              enum:
+              - InsecureClient
+            source_path:
+              type: string
+              description: the path from hdfs server to be downloaded
+            destination_path:
+              type: string
+              description: the path where hdfs data downloaded into
+            user:
+              type: string
+    Install_python:
+      type: object
+      properties:
+        version:
+          type: string
+    Install_git:
+      type: object
+      properties:
+        config:
+          type: object
+    Pip_install:
+      type: object
+      properties:
+        packages:
+          type: array
+          items:
+            type: string
