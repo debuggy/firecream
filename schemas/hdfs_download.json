@@ -1,0 +1,62 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "hdfs_download.json",
+  "type": "object",
+  "description": "Config schema of hdfs download step.",
+  "oneOf": [
+    {
+      "description": "token client",
+      "properties": {
+        "url": {
+          "type": "string",
+          "description": "the web hdfs url"
+        },
+        "client_type": {
+          "type": "string",
+          "enum": [
+            "TokenClient"
+          ]
+        },
+        "source_path": {
+          "type": "string"
+        },
+        "destination_path": {
+          "type": "string"
+        },
+        "token": {
+          "type": "string"
+        }
+      },
+      "required": ["url", "client_type", "source_path", "destination_path", "token"],
+      "additionalProperties": false
+    },
+    {
+      "description": "insecure client",
+      "properties": {
+        "url": {
+          "type": "string",
+          "description": "the web hdfs url"
+        },
+        "client_type": {
+          "type": "string",
+          "enum": [
+            "InsecureClient"
+          ]
+        },
+        "source_path": {
+          "type": "string",
+          "description": "the path from hdfs server to be downloaded"
+        },
+        "destination_path": {
+          "type": "string",
+          "description": "the path where hdfs data downloaded into"
+        },
+        "user": {
+          "type": "string"
+        }
+      },
+      "required": ["url", "client_type", "source_path", "destination_path", "user"],
+      "additionalProperties": false
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "install_python.json",
+  "type": "object",
+  "description": "Config schema of install python step.",
+  "properties": {
+    "version": {
+      "type": ["string", "number"],
+      "default": "3.6"
+    }
+  },
+  "required": ["version"],
+  "additionalProperties": false
+}

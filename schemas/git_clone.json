@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "git_clone.json",
+  "type": "object",
+  "description": "Config schema of git clone step.",
+  "properties": {
+    "url": {
+      "type": "string",
+      "description": "the git repo url to clone"
+    },
+    "branch": {
+      "type": "string",
+      "default": "master"
+    },
+    "tag": {
+      "type": "string"
+    }
+  },
+  "required": ["url"],
+  "additionalProperties": false
+}
