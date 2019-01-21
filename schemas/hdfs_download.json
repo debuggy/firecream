@@ -27,8 +27,7 @@
           "type": "string"
         }
       },
-      "required": ["url", "client_type", "source_path", "destination_path", "token"],
-      "additionalProperties": false
+      "required": ["url", "client_type", "source_path", "destination_path", "token"]
     },
     {
       "description": "insecure client",
@@ -55,8 +54,7 @@
           "type": "string"
         }
       },
-      "required": ["url", "client_type", "source_path", "destination_path", "user"],
-      "additionalProperties": false
+      "required": ["url", "client_type", "source_path", "destination_path", "user"]
     }
   ]
 }

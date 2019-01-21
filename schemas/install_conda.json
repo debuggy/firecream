@@ -23,6 +23,5 @@
       ]
     }
   },
-  "required": ["python_version", "conda_version", "bit"],
-  "additionalProperties": false
+  "required": ["python_version", "conda_version", "bit"]
 }

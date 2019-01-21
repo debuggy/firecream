@@ -4,6 +4,5 @@
   "type": "object",
   "description": "Config schema of git clone step.",
   "properties": {
-  },
-  "additionalProperties": false
+  }
 }

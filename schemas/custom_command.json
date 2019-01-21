@@ -8,6 +8,5 @@
       "type": "string"
     }
   },
-  "required": ["command"],
-  "additionalProperties": false
+  "required": ["command"]
 }

@@ -12,6 +12,5 @@
       }
     }
   },
-  "required": ["packages"],
-  "additionalProperties": false
+  "required": ["packages"]
 }

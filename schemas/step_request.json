@@ -9,7 +9,6 @@
     "step_type",
     "config"
   ],
-  "additionalProperties": false,
   "properties": {
     "name": {
       "type": "string"
