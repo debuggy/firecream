@@ -1,0 +1,35 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: firecream
+  labels:
+    app: firecream
+spec:
+  selector:
+    matchLabels:
+      app: firecream
+  replicas: 1
+  template:
+    metadata:
+      name: firecream
+      labels:
+        app: firecream
+    spec:
+      containers:
+      - name: firecream
+        image: debuggy/firecream
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: firecream
+  labels:
+    app: firecream
+spec:
+  selector:
+    app: firecream
+  ports:
+    - protocol: TCP
+      port: 8080
